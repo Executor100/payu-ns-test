@@ -8,6 +8,7 @@ En la configuración de la BD es necesario ejecutar el archivo
 payu-ns-test\persistence\config\dbDef.js
 
 node dbDef.js
+```
 ---
 Es necesario instalar los paquetes:
 ---
