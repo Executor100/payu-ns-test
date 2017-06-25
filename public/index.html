@@ -1,0 +1,144 @@
+
+
+<!doctype html>
+<html lang="en" ng-app="GeekStore">
+<head>
+    <title> Geek Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <style>
+        .emptyMessage {
+            font-weight: bold;
+            color: red;
+            font-size: 1.2em;
+        }
+        li {
+            margin-bottom: 7px;
+            font-size: 1.2em;
+        }
+
+        li > button {
+
+            margin-left: 6px;
+        }
+        button > span {
+            color: green;
+        }
+        .hide {
+            display: none;
+        }
+    </style>
+    <script src='javascripts/pdfmake.min.js'></script>
+    <script src='javascripts/vfs_fonts.js'></script>
+    <script src="javascripts/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+
+
+</head>
+<body>
+<div class="container" ng-controller="ProductsController" >
+    <h1>Tienda de Figuras de Coleccion</h1>
+
+    <div class="row">
+
+        <!-- To Buy List -->
+        <div class="col-md-8" >
+            <label for="user"> Producto: 
+            <select class="form-control" ng-model="product" ng-change="getProduct()" id="user">
+                <option ng-repeat="prod in listProducts"  value="{{prod.nombre}}">{{prod.nombre}} </option>
+            </select>
+            </label>
+            <label for="quantity">Cantidad: <input type="number" class="form-control" ng-model="quantity" id="quantity"> </label>
+            <label for="value">Precio: <label class="form-control"> {{value}} {{currency}} </label> </label>
+            <button class="btn btn-default" ng-class="{hide : quantity <= 0 }" ng-click="addProduct()"><span class="glyphicon glyphicon-ok"></span> Agregar</button></br>
+            <h2>Productos Agregados</h2>
+            <ul >
+                <li ng-repeat=" product in products" >
+                    Nombre: {{product.name}} , Cantidad: {{product.quantity}}  Valor:  {{product.value | currency:product.currency + "$"}}
+                    <button class="btn btn-default"  ng-click="removeProduct(product.name)"><span class="glyphicon glyphicon-remove"></span> Eliminar</button>
+                </li>
+            </ul>
+             <button class="btn btn-default" ng-class="{hide : products.length == 0}" ng-click="buyProducts()"><span class="glyphicon glyphicon-download"></span> Comprar</button>
+
+        </div>
+
+        <!-- Already Bought List -->
+
+    </div>
+
+        <div class="row">
+                        <div class="col-md-6" >
+                <div class="row">
+                    <h2>Factura emitida </h2>
+                   <span  class="emptyMessage">Factura de la compra actualmente realizada</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"   >
+                        <h3>Detalle:</h3>
+                        <table class="table table-hover" ng-class="{hide : bill.length == 0 }">
+                            <thead>
+                              <tr>
+                                <th>Cantidad</th>
+                                <th>Nombre</th>
+                                <th>Precio Unitario</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat=" product in bill.products">
+                                <td>{{product.quantity}}</td>
+                                <td>{{product.name}}</td>
+                                <td>{{product.value}}</td>
+                                <td>{{product.amount}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        <label for="subtotal" ng-class="{hide : bill.length == 0 }">SubTotal:{{bill.subtotal}} </label>
+                        <br />
+                        <label for="iva" ng-class="{hide : bill.length == 0 }">Iva: {{bill.iva}} </label>
+                        <br />
+                        <label for="total" ng-class="{hide : bill.length == 0 }">Total: {{bill.total}} </label>
+                        <br />
+                        <button class="btn btn-default" ng-class="{hide : bill.length == 0 }" ng-click="getProductPDF()"><span class="glyphicon glyphicon-upload"></span> Imprimir</button>
+                    </div>
+                </div>
+                </div>
+
+            <div class="col-md-6" >
+                <div class="row">
+                    <h2>Resumen de compras realizadas </h2>
+                    <span  class="emptyMessage"> Detalle de todas las compras realizadas</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"   >
+                        <table class="table table-hover" ng-class="{hide : bills.length == 0 }">
+                            <thead>
+                              <tr>
+                                <th>Codigo</th>
+                                <th>Subtotal</th>
+                                <th>Iva</th>
+                                <th>Total</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat=" bill in bills">
+                                <td>{{bill.id}}</td>
+                                <td>{{bill.subtotal}}</td>
+                                <td>{{bill.iva}}</td>
+                                <td>{{bill.total}}</td>
+                                <td><button class="btn btn-default" ng-click="getBill(bill.id)"><span class="glyphicon glyphicon-eye-open"></span> Ver Factura</button></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+</div>
+
+</body>
+</html>
