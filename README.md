@@ -1,12 +1,21 @@
-# felipe-diaz-back
-felipe-diaz-back
+# Diego Sánchez
 
-Cube Sum Range Query webapp problem for Rappi interview process
+Este es el código de la prueba técnica.
 
+En la configuración de la BD es necesario ejecutar el archivo
+payu-ns-test\persistence\config\dbDef.js
 ---
-run the project using
+node dbDef.js
+---
+Es necesario instalar los paquetes:
+---
 ```javascript
 npm install
+npm install request
+npm install deasync
+npm install mongodb
 npm start
-```
 ---
+Una vez realizado los dos pasos previos se puede iniciar el sitio:
+
+http://localhost:3000/
