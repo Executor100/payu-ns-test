@@ -3,7 +3,7 @@ var url = "mongodb://localhost:27017/geekdb";
 
 MongoClient.connect(url, function(err, db) {
   if (err) console.log(err);
-  db.dropDatabase();
+  //db.dropDatabase();
   /*db.close();
 });
 
