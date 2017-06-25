@@ -37,7 +37,7 @@ module.exports.getAllInvoice = function(req, res){
 };
 
 
-
+//Get rates to convert currency to COP
 function GetRates(currency, value){
 	var valueRate;
 	if(currency != "COP"){
@@ -50,6 +50,7 @@ function GetRates(currency, value){
 				var res = rates[i].fecha.split("-");
 				f2 = new Date(res[0], res[1]-1, res[2]);
 				f2.setHours(0,0,0,0);
+				//If the exchange rate is not updated, call the api and update
 				if (f1.getTime() != f2.getTime()){
 					rates[i].fecha = ""+f1.getFullYear() + "-" + (f1.getMonth() +1) + "-" +f1.getDate();
 					rates[i] = updateRate(rates[i]);
@@ -66,6 +67,7 @@ function GetRates(currency, value){
 
 function updateRate(rate){
 	var valueRate;
+	//Google service to get exchange rates.
 	var URL = "https://www.google.com/finance/converter?a=1&from="+rate.nombre+"&to=COP";
 	request(URL, function(err, resp, body) {
 		valueRate = body.substring(body.indexOf("<span class=bld>")+16, body.indexOf("COP</span>")).trim();
@@ -74,6 +76,7 @@ function updateRate(rate){
 			dbRates.updateRates(rate);
 		}
 	});
+	//Wait to finish the query to google service
 	while(valueRate === undefined) {
 		deasync.runLoopOnce();
 	}

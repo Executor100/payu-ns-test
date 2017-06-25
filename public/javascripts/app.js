@@ -48,8 +48,6 @@
 
         };
 
-
-
         $scope.removeProduct =  function(productName){
             for(var i = 0 ;  i < $scope.products.length; i++){
                 if(  $scope.products[i].name == productName){
@@ -159,7 +157,6 @@
         };
 
         $scope.getBill =  function(billId){
-            //TODO
             var URL = "/api/invoice";
             var jsondata =  {products: $scope.products};
             for (var i = 0 ; i< $scope.bills.length; i++) {
@@ -169,8 +166,5 @@
                 };
             };
         };
-
     }
-
-
 })();
